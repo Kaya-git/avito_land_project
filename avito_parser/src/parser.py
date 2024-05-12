@@ -1,33 +1,33 @@
-import asyncio
-import aiohttp
+import undetected_chromedriver as uc
 from typing import Protocol
-from config import conf
-from bs4 import BeautifulSoup
-import aiofiles
 
 
 class Parser(Protocol):
 
-    async def make_query(url: str = conf.crimea_land.url):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                html = await response.text()
-                return html
+    def __init__(
+        self,
+        url: str,
+    ):
+        self.url = url
+        self.driver = uc.Chrome(browser_executable_path="/usr/lib/brave-browser/brave-browser")
 
-    async def scrap_adv_links(html):
-        async with aiofiles.open(f"{html}", mode="r") as f:
-            lxml_file = await f.read()
-        
-    async def collect_links():
-        pass
+    def make_query(self):
+        self.driver.get(self.url)
 
-    async def next_page():
-        pass
+    # def scrap_adv_links(self, html):
+    #     with open(f"{html}", mode="r") as f:
+    #         lxml_file = f.read()
 
-    
+    #     soup = BeautifulSoup(lxml_file, "lxml")
+
+    #     links = []
+
+    #     for link in soup.find_all("a"):
+
+    #         links.append(link.get("href"))
+
+    #     return links
 
 
-
-
-
-class AvitoParser()
+class AvitoParser(Parser):
+    ...
